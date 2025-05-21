@@ -4,7 +4,7 @@ require('dotenv').config(); // Cargar variables de entorno
 const express = require('express');
 const serverless = require('serverless-http'); // 👈 necesario para Vercel
 const cors = require('cors');
-const userRoutes = require('../routes/usuariosRoutes'); // ajusta ruta relativa
+const userRoutes = require('./routes/usuariosRoutes'); // ajusta ruta relativa
 
 const app = express();
 
