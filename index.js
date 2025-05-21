@@ -1,23 +1,19 @@
-require('dotenv').config();  // Carga variables .env al inicio
+// api/index.js
+
+require('dotenv').config(); // Cargar variables de entorno
 const express = require('express');
+const serverless = require('serverless-http'); // 👈 necesario para Vercel
 const cors = require('cors');
-const userRoutes = require('./routes/usuariosRoutes');
+const userRoutes = require('../routes/usuariosRoutes'); // ajusta ruta relativa
 
 const app = express();
 
-const FRONTEND_URL = process.env.FRONTEND_URL || '*'; // Puedes definirlo en .env
-
-// Configura CORS para aceptar solo peticiones desde el frontend (más seguro)
-app.use(cors({
-  origin: FRONTEND_URL
-}));
-
+const FRONTEND_URL = process.env.FRONTEND_URL || '*';
+app.use(cors({ origin: FRONTEND_URL }));
 app.use(express.json());
 
 app.use('/', userRoutes);
 
-const port = process.env.PORT || 3000;
-
-app.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
-});
+// 👇 Exporta como función para Vercel
+module.exports = app;
+module.exports.handler = serverless(app);
